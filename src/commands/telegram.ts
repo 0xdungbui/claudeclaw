@@ -456,8 +456,9 @@ async function sendDocumentToChat(
   }
 }
 
-// Chat IDs with verbose tool display enabled
-const verboseChats = new Set<number>();
+// PATCH (Sen, 21/07/2026): verbose bật mặc định — set này giờ chứa chat ĐÃ TẮT verbose.
+// Khôi phục hành vi gốc: đổi lại thành danh sách chat bật, và bỏ dấu ! ở chỗ đọc.
+const verboseOffChats = new Set<number>();
 
 // Model overrides per chat ID
 const chatModels = new Map<number, string>();
@@ -1152,12 +1153,12 @@ async function handleMessage(message: TelegramMessage): Promise<void> {
   }
 
   if (command === "/verbose") {
-    if (verboseChats.has(chatId)) {
-      verboseChats.delete(chatId);
-      await sendMessage(config.token, chatId, "Verbose mode off.", threadId);
-    } else {
-      verboseChats.add(chatId);
+    if (verboseOffChats.has(chatId)) {
+      verboseOffChats.delete(chatId);
       await sendMessage(config.token, chatId, "Verbose mode on — tool calls will be shown.", threadId);
+    } else {
+      verboseOffChats.add(chatId);
+      await sendMessage(config.token, chatId, "Verbose mode off.", threadId);
     }
     return;
   }
@@ -1456,7 +1457,7 @@ async function handleMessage(message: TelegramMessage): Promise<void> {
     }
     const prefixedPrompt = promptParts.join("\n");
     const busy = isMainBusy();
-    const verbose = verboseChats.has(chatId);
+    const verbose = !verboseOffChats.has(chatId);
     const modelOverride = chatModels.get(chatId);
     let result;
     let streamMsgId: number | null = null;
