@@ -341,7 +341,10 @@ export async function start(args: string[] = []) {
   const webEnabled = webFlag || webPortFlag !== null || settings.web.enabled;
   const webPort = webPortFlag ?? settings.web.port;
 
-  await setupStatusline();
+  // PATCH (Sen, 21/07/2026): tắt hẳn việc chèn statusLine vào <project>/.claude/settings.json.
+  // Cài đặt project thắng cài đặt chung nên nó che mất statusline claude-hud của cậu chủ.
+  // Khôi phục hành vi gốc: bỏ comment dòng dưới.
+  // await setupStatusline();
   await writePidFile();
   let web: WebServerHandle | null = null;
   let discordStopGateway: (() => void) | null = null;

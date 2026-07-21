@@ -19,25 +19,20 @@ import { homedir, tmpdir } from "os";
 import { fileURLToPath } from "url";
 
 // ── Plugin repos to install (one plugin per repo) ───────────────────
-const PLUGINS = [
-  "https://github.com/SawyerHood/dev-browser",
-  "https://github.com/thedotmack/claude-mem",
-  "https://github.com/obra/superpowers-marketplace",
-  // Add more repos here:
-  // "https://github.com/user/repo",
+// PATCH (Sen, 21/07/2026): làm rỗng danh sách. Bản gốc tự tải và cài
+// dev-browser, claude-mem (1 GB), superpowers vào máy cậu chủ mà không hỏi.
+// Khôi phục hành vi gốc: chép lại 3 URL trong khối chú thích dưới.
+const PLUGINS: string[] = [
+  // "https://github.com/SawyerHood/dev-browser",
+  // "https://github.com/thedotmack/claude-mem",
+  // "https://github.com/obra/superpowers-marketplace",
 ];
 
 // ── Cherry-pick from anthropics/claude-plugins-official ─────────────
-const OFFICIAL_PLUGINS = [
-  "ralph-loop",
-  "hookify",
-  "code-review",
-  "pr-review-toolkit",
-  "commit-commands",
-  "plugin-dev",
-  // Add more plugin names here (must match names in marketplace.json):
-  // "typescript-lsp",
-  // "playwright",
+// PATCH (Sen, 21/07/2026): làm rỗng. Cậu chủ tự chọn plugin chính thức nào muốn bật.
+const OFFICIAL_PLUGINS: string[] = [
+  // "ralph-loop", "hookify", "code-review",
+  // "pr-review-toolkit", "commit-commands", "plugin-dev",
 ];
 
 // ── Config ──────────────────────────────────────────────────────────
